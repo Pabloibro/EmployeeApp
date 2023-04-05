@@ -1,20 +1,11 @@
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser
-from django.http.response import JsonResponse
-
-from EmployeeApp.models import Department, Employees
-from EmployeeApp.serializers import DepartmentSerializer, EmployeeSerializer
+from rest_framework import viewsets
+from EmployeeApp.models import Employee
+from EmployeeApp.serializers import  EmployeeSerializer
 
 # Create your views here.
 
 
-@csrf_exempt
-def departmentApi(request, id=0):
-    if request.method == 'GET':
-        departments = Department.objects.all()
-        departments_serializer = DepartmentSerializer(departments, many=True)
-        return JsonResponse(departments_serializer.data, safe=False)
-    # elif request.method == 'POST':
-    #     department_data = JSONParser().parse(request)
-    #     depa
+class EmployeeViewSet(viewsets.ModelViewSet):
+    serializer_class = EmployeeSerializer
+    queryset = Employee.objects.all().order_by('-id')
