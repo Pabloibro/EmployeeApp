@@ -15,3 +15,12 @@ class Employee(models.Model):
 
    def __str__(self):
     return self.full_name
+
+
+def upload_path(instance, fileName):
+    return '/'.join(['covers', str(instance.title), fileName])
+
+class Book(models.Model):
+    title = models.CharField(max_length=32, blank=False)
+    cover = models.ImageField(blank=True, null=True, upload_to=upload_path)
+
